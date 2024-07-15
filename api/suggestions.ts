@@ -8,6 +8,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (!req.body || !req.body.text) {
+    return res.status(400).json({ error: 'Invalid request, "text" is required' });
+  }
+
   const { text } = req.body;
 
   try {
@@ -16,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prompt: `autocomplete this word, letter or sentence: ${text}`,
       max_tokens: 100,
       n: 1,
-      stop: undefined,  // Ensure the type matches
+      stop: undefined,
       temperature: 0.15,
     });
     res.status(200).json(response.data.choices[0].text);
