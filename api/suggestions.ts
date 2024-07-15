@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       prompt: `autocomplete this word, letter or sentence: ${text}`,
       max_tokens: 100,
       n: 1,
-      stop: text.length - 1,
+      stop: undefined,  // Ensure the type matches
       temperature: 0.15,
     });
     res.status(200).json(response.data.choices[0].text);
